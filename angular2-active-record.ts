@@ -78,7 +78,10 @@ export class ActiveRecord<T> {
   // Ex:[GET] /${table_name}/${id}
   update(id: any, data: any) {
     let body = JSON.stringify(data);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    if (!this._config.headers['Content-Type']) {
+      this._config.headers['Content-Type'] = 'application/json';
+    }
+    let headers = new Headers(this._config.headers);
     let options = new RequestOptions({ headers: headers });
 
     return this.httpService[this._config.methods.update](this.api_url + "/" + id, body, options)
@@ -88,7 +91,10 @@ export class ActiveRecord<T> {
   // Ex:[GET] /${table_name}
   insert(data: any) {
     let body = JSON.stringify(data);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    if (!this._config.headers['Content-Type']) {
+      this._config.headers['Content-Type'] = 'application/json';
+    }
+    let headers = new Headers(this._config.headers);
     let options = new RequestOptions({ headers: headers });
 
     return this.httpService[this._config.methods.insert](this.api_url, body, options)
@@ -97,7 +103,7 @@ export class ActiveRecord<T> {
   }
   // Ex:[GET] /${table_name}/${id}
   delete(id: any) {
-    let headers = new Headers({});
+    let headers = new Headers(this._config.headers);
     let options = new RequestOptions({ headers: headers });
     return this.httpService[this._config.methods.delete](this.api_url + "/" + id, options)
       .map((res: Response) => res.json())

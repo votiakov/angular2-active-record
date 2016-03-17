@@ -12,6 +12,27 @@ npm install angular2-active-record
 
 ### config
 
+The first config system app same as:
+
+```js
+System.config({
+  transpiler: 'typescript', 
+  typescriptOptions: { emitDecoratorMetadata: true },
+  baseURL: '/',
+  packages: {        
+    app: {
+      format: 'register',
+      defaultExtension: 'js'
+    }
+  },
+  map: {
+      "angular2-active-record": "node_modules/angular2-active-record/angular2-active-record.js"
+  },
+});
+
+```
+
+Config main app:
 ```ts
 import {ApiConfig} from 'angular2-active-record';
 
