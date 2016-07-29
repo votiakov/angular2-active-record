@@ -15,20 +15,53 @@ npm install angular2-active-record
 The first config system app same as:
 
 ```js
-System.config({
-  transpiler: 'typescript', 
-  typescriptOptions: { emitDecoratorMetadata: true },
-  baseURL: '/',
-  packages: {        
-    app: {
-      format: 'register',
-      defaultExtension: 'js'
-    }
-  },
-  map: {
-      "angular2-active-record": "node_modules/angular2-active-record/angular2-active-record.js"
-  },
-});
+/**
+ * System configuration for Angular 2 samples
+ * Adjust as necessary for your application needs.
+ */
+(function(global) {
+  // map tells the System loader where to look for things
+  var map = {
+    'app':                        'app', // 'dist',
+    '@angular':                   'node_modules/@angular',
+    'rxjs':                       'node_modules/rxjs',
+    'angular2-active-record'    : 'node_modules/angular2-active-record'
+  };
+  // packages tells the System loader how to load when no filename and/or no extension
+  var packages = {
+    'app':                        { main: 'main.js',  defaultExtension: 'js' },
+    'rxjs':                       { defaultExtension: 'js' },
+    'angular2-active-record': { main: 'angular2-active-record.js', defaultExtension: 'js' },
+  };
+  var ngPackageNames = [
+    'common',
+    'compiler',
+    'core',
+    'http',
+    'platform-browser',
+    'platform-browser-dynamic',
+    'router',
+    'router-deprecated',
+    'upgrade',
+  ];
+  // Individual files (~300 requests):
+  function packIndex(pkgName) {
+    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+  }
+  // Bundled (~40 requests):
+  function packUmd(pkgName) {
+    packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+  }
+  // Most environments should use UMD; some (Karma) need the individual index files
+  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
+  // Add package entries for angular packages
+  ngPackageNames.forEach(setPackageConfig);
+  var config = {
+    map: map,
+    packages: packages
+  };
+  System.config(config);
+})(this);
 
 ```
 
@@ -93,10 +126,9 @@ Example: a service to connect api for `posts`, and have apis as follow:
 ```
 
 ```ts
-import {Injectable}         from 'angular2/core';
-import {Response}           from 'angular2/http';
-import {Http, Headers, RequestOptions}from 'angular2/http';
-import {Observable}         from 'rxjs/Observable';
+import {Injectable}         from '@angular2/core';
+import {Response}           from '@angular2/http';
+import {Http}from           '@angular2/http';
 
 import {ActiveRecord, ApiConfig} from 'angular2-active-record';
 
@@ -120,11 +152,11 @@ export class PostService extends ActiveRecord<Post> {
 use `PostService` in post component:
 
 ```ts
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit} from '@angular2/core';
 
 import {MATERIAL_DIRECTIVES} from 'ng2-material/all';
 import {AuthHttp, AuthConfig, tokenNotExpired, JwtHelper} from "angular2-jwt";
-import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from '@angular2/router';
 
 import {Post} from '../models/post.model';
 import {PostService} from '../services/post.service';
@@ -146,30 +178,29 @@ export class PostsComponent implements OnInit {
 
   getPosts() {
     this._postService.findAll()
-      .subscribe(
-        posts => this.posts = posts,
-        error => this.errorMessage = error
-      );
+      .then(
+        posts => this.posts = posts
+      ).catch();
   }
   updatePost(id, post: Post) {
-    this._postService.update(id, {post: post}).subscribe (
+    this._postService.update(id, {post: post}).then(
         res => {}
-      );
+     ).catch();
   }
   createPost(post: Post) {
-    this._postService.insert( {post: post}).subscribe (
+    this._postService.insert( {post: post}).then(
         res => {}
-      );
+     ).catch();
   }
   showPost(id) {
-    this._postService.find(id).subscribe(
+    this._postService.find(id).then(
         res => {}
-     );
+     ).catch();
   }
   deletePost(id) {
-    this._postService.delete(id).subscribe(
+    this._postService.delete(id).then(
         res => {}
-      );
+     ).catch();
   }
 }
 
@@ -193,8 +224,9 @@ If you want to customize response data or handle error response, you must overri
     return <T>res.json();
   }
 
-  protected handleError(error: Response): ErrorObservable {
-    return Observable.throw(new Error(error.json().join() || 'Server error'));
+  protected handleError(error: any): Promise<any>{
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 ```
 
