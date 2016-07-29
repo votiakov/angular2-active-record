@@ -1,6 +1,6 @@
 {
   "name": "angular2-active-record",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Helper library for handling connect api in Angular 2",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsc --watch",
     "typings": "typings install",
-    "build": "tsc",
+    "build": "tsc --declaration",
     "prepublish": "tsc",
     "postinstall": "typings install"
   },
@@ -32,6 +32,8 @@
     "@angular/compiler":  "~2.0.0-rc.1",
     "@angular/core":  "~2.0.0-rc.1",
     "@angular/http":  "~2.0.0-rc.1",
+    "@angular/platform-browser": "~2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "~2.0.0-rc.1",
     "systemjs": "0.19.27",
     "core-js": "^2.4.0",
     "reflect-metadata": "^0.1.3",
