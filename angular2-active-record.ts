@@ -1,9 +1,7 @@
-import {Injectable}                      from 'angular2/core';
-import {Response}                        from 'angular2/http';
-import {Headers, RequestOptions}         from 'angular2/http';
-import {Observable}                      from 'rxjs/Observable';
-import {ErrorObservable}                 from 'rxjs/Observable/ErrorObservable';
-
+import {Injectable}                      from '@angular/core';
+import {Response}                        from '@angular/http';
+import {Headers, RequestOptions}         from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 export interface MethodHttp {
   query: string;
   update: string;
@@ -11,13 +9,11 @@ export interface MethodHttp {
   delete: string;
   [method: string]: string;
 }
-
 export interface IBApiConfig {
   urlAPI: string;
   headers: any;
   methods: MethodHttp;
 }
-
 export class ApiConfig {
   config: any;
   urlAPI: string;
@@ -39,7 +35,6 @@ export class ApiConfig {
       this.methods[method] = this.methods[method] || this.defaultMethods[method];
     }
   }
-
   getConfig() {
     return {
       urlAPI: this.urlAPI,
@@ -48,7 +43,6 @@ export class ApiConfig {
     }
   }
 }
-
 export class ActiveRecord<T> {
   public api_url: string;
   private _config: IBApiConfig;
@@ -56,23 +50,25 @@ export class ActiveRecord<T> {
     this._config = options.getConfig();
     this.api_url = this._config.urlAPI + "" + table_name;
   }
-
   // Ex:[GET] /${table_name}?page=1&sort=title
-  findAll(params: any = { page: 1, sort: "" }): Observable<T> {
+  findAll(params: any = { page: 1, sort: "" }): Promise<T[]> {
     return this.httpService[this._config.methods.query](this.api_url + this.generateParam(params))
-      .map((res: Response) => this.processData(res))
+      .toPromise()
+      .then((res: Response) => this.processData(res))
       .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}/search?title=abc&page=1&sort=title
-  search(data: any, api_search_name: string = ""): Observable<T> {
+  search(data: any, api_search_name: string = ""): Promise<T[]> {
     return this.httpService[this._config.methods.query](this.api_url + "/" + api_search_name + this.generateParam(data))
-      .map((res: Response) => this.processData(res))
+      .toPromise()
+      .then((res: Response) => this.processData(res))
       .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}/${id}
-  find(id: any): Observable<T> {
+  find(id: any): Promise<T> {
     return this.httpService[this._config.methods.query](this.api_url + "/" + id)
-      .map((res: Response) => this.processData(res))
+      .toPromise()
+      .then((res: Response) => this.processData(res))
       .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}/${id}
@@ -83,10 +79,10 @@ export class ActiveRecord<T> {
     }
     let headers = new Headers(this._config.headers);
     let options = new RequestOptions({ headers: headers });
-
     return this.httpService[this._config.methods.update](this.api_url + "/" + id, body, options)
-      .map((res: Response) => res.json())
-      .catch(this.handleError)
+      .toPromise()
+      .then((res: Response) => this.processData(res))
+      .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}
   insert(data: any) {
@@ -96,20 +92,20 @@ export class ActiveRecord<T> {
     }
     let headers = new Headers(this._config.headers);
     let options = new RequestOptions({ headers: headers });
-
     return this.httpService[this._config.methods.insert](this.api_url, body, options)
-      .map((res: Response) => this.processData(res))
-      .catch(this.handleError)
+      .toPromise()
+      .then((res: Response) => this.processData(res))
+      .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}/${id}
   delete(id: any) {
     let headers = new Headers(this._config.headers);
     let options = new RequestOptions({ headers: headers });
     return this.httpService[this._config.methods.delete](this.api_url + "/" + id, options)
-      .map((res: Response) => res.json())
+      .toPromise()
+      .then((res: Response) => this.processData(res))
       .catch(this.handleError);
   }
-
   protected generateParam(params: any = {}): string {
     let params_arr: Array<string> = [];
     for (let key in params) {
@@ -119,12 +115,11 @@ export class ActiveRecord<T> {
     }
     return "?" + params_arr.join("&");
   }
-
   protected processData(res: Response) {
     return <T>res.json();
   }
-
-  protected handleError(error: Response): ErrorObservable {
-    return Observable.throw(new Error(error.json().join() || 'Server error'));
+  protected handleError(error: any): Promise<any>{
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
   }
 }
