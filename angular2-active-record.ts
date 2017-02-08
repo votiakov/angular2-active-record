@@ -56,7 +56,8 @@ export class ActiveRecord<T> {
       this._config.headers["Content-Type"] = "application/json";
     }
     const headers = new Headers(this._config.headers);
-    return this.httpService[this._config.methods.query](this.api_url + this.generateParam(params), headers)
+    const options = new RequestOptions({ headers });
+    return this.httpService[this._config.methods.query](this.api_url + this.generateParam(params), options)
       .toPromise()
       .then((res: Response) => this.processData(res))
       .catch(this.handleError);
@@ -67,7 +68,8 @@ export class ActiveRecord<T> {
       this._config.headers["Content-Type"] = "application/json";
     }
     const headers = new Headers(this._config.headers);
-    return this.httpService[this._config.methods.query](this.api_url + "/" + api_search_name + this.generateParam(data), headers)
+    const options = new RequestOptions({ headers });
+    return this.httpService[this._config.methods.query](this.api_url + "/" + api_search_name + this.generateParam(data), options)
       .toPromise()
       .then((res: Response) => this.processData(res))
       .catch(this.handleError);
@@ -78,7 +80,8 @@ export class ActiveRecord<T> {
       this._config.headers["Content-Type"] = "application/json";
     }
     const headers = new Headers(this._config.headers);
-    return this.httpService[this._config.methods.query](this.api_url + "/" + id, headers)
+    const options = new RequestOptions({ headers });
+    return this.httpService[this._config.methods.query](this.api_url + "/" + id, options)
       .toPromise()
       .then((res: Response) => this.processData(res))
       .catch(this.handleError);
