@@ -1,6 +1,6 @@
 {
   "name": "andrii-test-angular2-active-record",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Helper library for handling connect api in Angular 2",
   "repository": {
     "type": "git",
@@ -25,10 +25,10 @@
   },
   "homepage": "https://github.com/votiakov/angular2-active-record#readme",
   "peerDependencies": {
-    "@angular/common":  "2.3.1",
-    "@angular/compiler":  "2.3.1",
-    "@angular/core":  "2.3.1",
-    "@angular/http":  "2.3.1",
+    "@angular/common": "2.3.1",
+    "@angular/compiler": "2.3.1",
+    "@angular/core": "2.3.1",
+    "@angular/http": "2.3.1",
     "@angular/platform-browser": "2.3.1",
     "@angular/platform-browser-dynamic": "2.3.1",
     "core-js": "2.4.1",
@@ -37,10 +37,10 @@
     "zone.js": "0.7.2"
   },
   "devDependencies": {
-    "@angular/common":  "2.3.1",
-    "@angular/compiler":  "2.3.1",
-    "@angular/core":  "2.3.1",
-    "@angular/http":  "2.3.1",
+    "@angular/common": "2.3.1",
+    "@angular/compiler": "2.3.1",
+    "@angular/core": "2.3.1",
+    "@angular/http": "2.3.1",
     "@angular/platform-browser": "2.3.1",
     "@angular/platform-browser-dynamic": "2.3.1",
     "core-js": "2.4.1",
