@@ -1,69 +1,17 @@
-# angular2-active-record
+# andrii-test-angular2-active-record
 
-**angular2-active-record** is a helper library for connect api in your Angular 2 applications.
+**andrii-test-angular2-active-record** is a helper library for connect api in your Angular 2 applications.
 
 ## Installation
 
 ```bash
-npm install angular2-active-record
+npm install andrii-test-angular2-active-record
 ```
 
 ## Usage
 
 ### config
 
-The first config system app same as:
-
-```js
-/**
- * System configuration for Angular 2 samples
- * Adjust as necessary for your application needs.
- */
-(function(global) {
-  // map tells the System loader where to look for things
-  var map = {
-    'app':                        'app', // 'dist',
-    '@angular':                   'node_modules/@angular',
-    'rxjs':                       'node_modules/rxjs',
-    'angular2-active-record'    : 'node_modules/angular2-active-record'
-  };
-  // packages tells the System loader how to load when no filename and/or no extension
-  var packages = {
-    'app':                        { main: 'main.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' },
-    'angular2-active-record': { main: 'angular2-active-record.js', defaultExtension: 'js' },
-  };
-  var ngPackageNames = [
-    'common',
-    'compiler',
-    'core',
-    'http',
-    'platform-browser',
-    'platform-browser-dynamic',
-    'router',
-    'router-deprecated',
-    'upgrade',
-  ];
-  // Individual files (~300 requests):
-  function packIndex(pkgName) {
-    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
-  }
-  // Bundled (~40 requests):
-  function packUmd(pkgName) {
-    packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
-  }
-  // Most environments should use UMD; some (Karma) need the individual index files
-  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
-  // Add package entries for angular packages
-  ngPackageNames.forEach(setPackageConfig);
-  var config = {
-    map: map,
-    packages: packages
-  };
-  System.config(config);
-})(this);
-
-```
 
 Config main app:
 ```ts
@@ -82,7 +30,7 @@ bootstrap(App, [
       urlAPI: "http://localhost:3456/api/"
     })
   }),
-  
+
 ])
 ```
 
@@ -142,7 +90,7 @@ export interface Post {
 
 @Injectable()
 export class PostService extends ActiveRecord<Post> {
-  constructor(public options: ApiConfig, public http: Http) { 
+  constructor(public options: ApiConfig, public http: Http) {
     super(options, http, "posts");
   }
 }
@@ -211,7 +159,7 @@ If you want to use [`angular2-jwt`](https://github.com/auth0/angular2-jwt) to au
 ```ts
 @Injectable()
 export class PostService extends ActiveRecord<Post> {
-  constructor(public options: ApiConfig, public http: AuthHttp) { 
+  constructor(public options: ApiConfig, public http: AuthHttp) {
     super(options, http, "posts");
   }
 }

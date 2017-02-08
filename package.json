@@ -1,17 +1,16 @@
 {
-  "name": "angular2-active-record",
-  "version": "0.1.5",
+  "name": "andrii-test-angular2-active-record",
+  "version": "0.1.6",
   "description": "Helper library for handling connect api in Angular 2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dieuhd/angular2-active-record.git"
+    "url": "git+https://github.com/votiakov/angular2-active-record"
   },
   "scripts": {
     "dev": "tsc --watch",
     "typings": "typings install",
     "build": "tsc --declaration",
-    "prepublish": "tsc",
-    "postinstall": "typings install"
+    "prepublish": "tsc"
   },
   "keywords": [
     "angular",
@@ -19,31 +18,37 @@
     "active record",
     "orm"
   ],
-  "author": "dieuhd",
+  "author": "votiakov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dieuhd/angular2-active-record/issues"
+    "url": "https://github.com/votiakov/angular2-active-record/issues"
   },
-  "main": "angular2-active-record.js",
-  "typings": "./angular2-active-record.d.ts",
-  "homepage": "https://github.com/dieuhd/angular2-active-record#readme",
-  "dependencies": {
-    "@angular/common":  "~2.0.0-rc.1",
-    "@angular/compiler":  "~2.0.0-rc.1",
-    "@angular/core":  "~2.0.0-rc.1",
-    "@angular/http":  "~2.0.0-rc.1",
-    "@angular/platform-browser": "~2.0.0-rc.1",
-    "@angular/platform-browser-dynamic": "~2.0.0-rc.1",
-    "systemjs": "0.19.27",
-    "core-js": "^2.4.0",
-    "reflect-metadata": "^0.1.3",
-    "rxjs": "5.0.0-beta.6",
-    "zone.js": "^0.6.12"
+  "homepage": "https://github.com/votiakov/angular2-active-record#readme",
+  "peerDependencies": {
+    "@angular/common":  "2.3.1",
+    "@angular/compiler":  "2.3.1",
+    "@angular/core":  "2.3.1",
+    "@angular/http":  "2.3.1",
+    "@angular/platform-browser": "2.3.1",
+    "@angular/platform-browser-dynamic": "2.3.1",
+    "core-js": "2.4.1",
+    "reflect-metadata": "0.1.8",
+    "rxjs": "5.0.0-rc.4",
+    "zone.js": "0.7.2"
   },
   "devDependencies": {
+    "@angular/common":  "2.3.1",
+    "@angular/compiler":  "2.3.1",
+    "@angular/core":  "2.3.1",
+    "@angular/http":  "2.3.1",
+    "@angular/platform-browser": "2.3.1",
+    "@angular/platform-browser-dynamic": "2.3.1",
+    "core-js": "2.4.1",
+    "reflect-metadata": "0.1.8",
+    "rxjs": "5.0.0-rc.4",
+    "zone.js": "0.7.2",
     "concurrently": "^2.0.0",
     "lite-server": "^2.2.0",
-    "typescript": "^1.8.10",
-    "typings":"^1.0.4"
+    "typescript": "^2.1.5"
   }
 }
