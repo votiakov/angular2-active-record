@@ -1,6 +1,6 @@
 {
   "name": "andrii-test-angular2-active-record",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Helper library for handling connect api in Angular 2",
   "repository": {
     "type": "git",
