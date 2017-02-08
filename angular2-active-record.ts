@@ -26,7 +26,7 @@ export class ApiConfig {
   };
   constructor(config?: IBApiConfig) {
     config = config || <any> {};
-    this.urlAPI = config.urlAPI || "http://localhost:3456/api/";
+    this.urlAPI = config.urlAPI || "http://localhost:3000/api/";
     this.headers = config.headers || {};
     this.methods = config.methods || <any> {};
     for (const method in this.defaultMethods) {
@@ -52,21 +52,33 @@ export class ActiveRecord<T> {
   }
   // Ex:[GET] /${table_name}?page=1&sort=title
   public findAll(params: any = { page: 1, sort: "" }): Promise<T[]> {
-    return this.httpService[this._config.methods.query](this.api_url + this.generateParam(params))
+    if (!this._config.headers["Content-Type"]) {
+      this._config.headers["Content-Type"] = "application/json";
+    }
+    const headers = new Headers(this._config.headers);
+    return this.httpService[this._config.methods.query](this.api_url + this.generateParam(params), headers)
       .toPromise()
       .then((res: Response) => this.processData(res))
       .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}/search?title=abc&page=1&sort=title
   public search(data: any, api_search_name: string = ""): Promise<T[]> {
-    return this.httpService[this._config.methods.query](this.api_url + "/" + api_search_name + this.generateParam(data))
+    if (!this._config.headers["Content-Type"]) {
+      this._config.headers["Content-Type"] = "application/json";
+    }
+    const headers = new Headers(this._config.headers);
+    return this.httpService[this._config.methods.query](this.api_url + "/" + api_search_name + this.generateParam(data), headers)
       .toPromise()
       .then((res: Response) => this.processData(res))
       .catch(this.handleError);
   }
   // Ex:[GET] /${table_name}/${id}
   public find(id: any): Promise<T> {
-    return this.httpService[this._config.methods.query](this.api_url + "/" + id)
+    if (!this._config.headers["Content-Type"]) {
+      this._config.headers["Content-Type"] = "application/json";
+    }
+    const headers = new Headers(this._config.headers);
+    return this.httpService[this._config.methods.query](this.api_url + "/" + id, headers)
       .toPromise()
       .then((res: Response) => this.processData(res))
       .catch(this.handleError);
