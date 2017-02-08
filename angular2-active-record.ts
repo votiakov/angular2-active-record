@@ -48,7 +48,7 @@ export class ActiveRecord<T> {
   private _config: IBApiConfig;
   constructor(public options: ApiConfig, public httpService: any, protected table_name: string) {
     this._config = options.getConfig();
-    this.api_url = this._config.urlAPI + "" + table_name;
+    this.api_url = `${this._config.urlAPI}${this._config.urlAPI[this._config.urlAPI.length - 1] === '/' ? '' : '/'}${table_name}`;
   }
   // Ex:[GET] /${table_name}?page=1&sort=title
   public findAll(params: any = { page: 1, sort: "" }): Promise<T[]> {
